@@ -3,19 +3,26 @@ using UnityEngine;
 
 public class MouseWorld : MonoBehaviour
 {
+    //Static reference to the mouse position
+    static MouseWorld instance;
 
+    [SerializeField]
+    LayerMask mousePlaneLayer;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake() 
     {
-        
+        //Set singleton
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    /// <summary>
+    /// Get the position of the mouse in the world
+    /// </summary>
+    public static Vector3 GetMouseWorldPosition()
     {
-        Debug.Log(Input.mousePosition);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.Log(Physics.Raycast(ray));
+        Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, instance.mousePlaneLayer);
+        return raycastHit.point;
     }
 }

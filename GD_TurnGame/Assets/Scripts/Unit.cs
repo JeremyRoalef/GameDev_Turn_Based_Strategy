@@ -3,6 +3,9 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     [SerializeField]
+    Animator unitAnimator;
+
+    [SerializeField]
     float moveSpeed = 4f;
 
     Vector3 targetPos;
@@ -18,12 +21,14 @@ public class Unit : MonoBehaviour
         if (Vector3.Distance(transform.position, targetPos) > nearTargetPosDistance)
         {
             //Smooth move to position
+            unitAnimator.SetBool("IsWalking", true);
             Vector3 moveDir = (targetPos - transform.position).normalized;
             transform.position += moveDir * Time.deltaTime * moveSpeed;
         }
         else 
         {
             //Snap to position
+            unitAnimator.SetBool("IsWalking", false);
             transform.position = targetPos;
         }
 
@@ -35,6 +40,7 @@ public class Unit : MonoBehaviour
 
     void Move(Vector3 targetPos)
     {
+        unitAnimator.SetBool("IsWalking", true);
         this.targetPos = targetPos;
     }
 }

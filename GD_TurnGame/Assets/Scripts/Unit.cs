@@ -8,13 +8,11 @@ public class Unit : MonoBehaviour
     Vector3 targetPos;
     const float nearTargetPosDistance = 0.1f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Vector3.Distance(transform.position, targetPos) > nearTargetPosDistance)
@@ -29,9 +27,9 @@ public class Unit : MonoBehaviour
             transform.position = targetPos;
         }
 
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetMouseButtonDown(0))
         {
-            Move(new Vector3(4, 0, 4));
+            Move(MouseWorld.GetMouseWorldPosition());
         }
     }
 

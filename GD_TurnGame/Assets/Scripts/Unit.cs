@@ -8,6 +8,9 @@ public class Unit : MonoBehaviour
     [SerializeField]
     float moveSpeed = 4f;
 
+    [SerializeField]
+    float rotateSpeed = 10f;
+
     Vector3 targetPos;
     const float nearTargetPosDistance = 0.1f;
 
@@ -24,8 +27,9 @@ public class Unit : MonoBehaviour
             unitAnimator.SetBool("IsWalking", true);
             Vector3 moveDir = (targetPos - transform.position).normalized;
             transform.position += moveDir * Time.deltaTime * moveSpeed;
+            transform.forward = Vector3.Lerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
         }
-        else 
+        else
         {
             //Snap to position
             unitAnimator.SetBool("IsWalking", false);

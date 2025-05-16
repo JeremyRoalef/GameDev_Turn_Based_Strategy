@@ -14,9 +14,9 @@ public class Unit : MonoBehaviour
     Vector3 targetPos;
     const float nearTargetPosDistance = 0.1f;
 
-    void Start()
+    private void Awake()
     {
-        
+        targetPos = transform.position;
     }
 
     void Update()
@@ -29,20 +29,15 @@ public class Unit : MonoBehaviour
             transform.position += moveDir * Time.deltaTime * moveSpeed;
             transform.forward = Vector3.Lerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
         }
-        else
+        else 
         {
             //Snap to position
             unitAnimator.SetBool("IsWalking", false);
             transform.position = targetPos;
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Move(MouseWorld.GetMouseWorldPosition());
-        }
     }
 
-    void Move(Vector3 targetPos)
+    public void Move(Vector3 targetPos)
     {
         unitAnimator.SetBool("IsWalking", true);
         this.targetPos = targetPos;

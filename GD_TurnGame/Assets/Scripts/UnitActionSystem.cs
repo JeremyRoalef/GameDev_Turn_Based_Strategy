@@ -1,23 +1,37 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UnitActionSystem : MonoBehaviour
 {
+    public event EventHandler<Unit> OnSelectedUnitChanged;
+    
+    public static UnitActionSystem Instance { get; private set; }
+
     [SerializeField]
     Unit selectedUnit;
 
     [SerializeField]
     LayerMask unitLayerMask;
 
-    private void Update()
+    private void Awake()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
-
-        if (TryHandleUnitSelection())
+        //Singleton pattern
+        if (Instance == null)
         {
-
+            Instance = this;
         }
         else
         {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (TryHandleUnitSelection()) return;
             selectedUnit.Move(MouseWorld.GetMouseWorldPosition());
         }
     }
@@ -29,7 +43,7 @@ public class UnitActionSystem : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent<Unit>(out Unit newUnit))
             {
-                selectedUnit = newUnit;
+                SetSelectedUnit(newUnit);
                 return true;
             }
         }
@@ -39,5 +53,16 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         return false;
+    }
+
+    void SetSelectedUnit(Unit unit)
+    {
+        selectedUnit = unit;
+        OnSelectedUnitChanged?.Invoke(this, selectedUnit);
+    }
+
+    public Unit GetSelectedUnit()
+    {
+        return selectedUnit;
     }
 }

@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridObject
 {
     GridSystem gridSystem;
     GridPosition gridPosition;
+
+    public List<Unit> units = new List<Unit>();
 
     public GridObject(GridSystem gridSystem, GridPosition gridPosition)
     {
@@ -13,6 +16,27 @@ public class GridObject
 
     public override string ToString()
     {
-        return gridPosition.ToString();
+        string unitString = "";
+        foreach (Unit unit in units)
+        {
+            unitString += unit + "\n";
+        }
+
+        return gridPosition.ToString() + "\n" + unitString;
+    }
+
+    public void AddUnit(Unit unit)
+    {
+        units.Add(unit);
+    }
+
+    public void RemoveUnit(Unit unit)
+    {
+        units.Remove(unit);
+    }
+
+    public List<Unit> GetUnits()
+    {
+        return units;
     }
 }

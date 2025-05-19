@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8766864425153194341, guid: fa4399f53b20f41468e01cb62daea837, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.8478472
+      value: 3.23
       objectReference: {fileID: 0}
     - target: {fileID: 8766864425153194341, guid: fa4399f53b20f41468e01cb62daea837, type: 3}
       propertyPath: m_LocalPosition.y
@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8766864425153194341, guid: fa4399f53b20f41468e01cb62daea837, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.8054075
+      value: 5.24
       objectReference: {fileID: 0}
     - target: {fileID: 8766864425153194341, guid: fa4399f53b20f41468e01cb62daea837, type: 3}
       propertyPath: m_LocalRotation.w
@@ -467,7 +467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8766864425153194341, guid: fa4399f53b20f41468e01cb62daea837, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.363957
+      value: 5.74
       objectReference: {fileID: 0}
     - target: {fileID: 8766864425153194341, guid: fa4399f53b20f41468e01cb62daea837, type: 3}
       propertyPath: m_LocalPosition.y
@@ -475,7 +475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8766864425153194341, guid: fa4399f53b20f41468e01cb62daea837, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.4225397
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 8766864425153194341, guid: fa4399f53b20f41468e01cb62daea837, type: 3}
       propertyPath: m_LocalRotation.w
@@ -587,7 +587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c6e73735d8f2c946a081ed8be18124d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridDebugObjectPrefab: {fileID: 7168270380054971998, guid: 74ffc9a6e81e2264ab3f99baacec4e2c, type: 3}
 --- !u!4 &832281298
 Transform:
   m_ObjectHideFlags: 0
@@ -847,6 +846,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036972491}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1219490496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219490498}
+  - component: {fileID: 1219490497}
+  m_Layer: 0
+  m_Name: LevelGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1219490497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219490496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5173f83cb8c20364e8b73189f2396290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridDebugObjectPrefab: {fileID: 7168270380054971998, guid: 74ffc9a6e81e2264ab3f99baacec4e2c, type: 3}
+--- !u!4 &1219490498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219490496}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.12375, y: 8.84452, z: -6.09201}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2020240678
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,3 +1010,4 @@ SceneRoots:
   - {fileID: 712723037}
   - {fileID: 223407969}
   - {fileID: 832281298}
+  - {fileID: 1219490498}

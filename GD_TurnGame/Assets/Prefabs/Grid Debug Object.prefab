@@ -185,6 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7168270380054971998}
+  - component: {fileID: 1622723348154038992}
   m_Layer: 0
   m_Name: Grid Debug Object
   m_TagString: Untagged
@@ -208,3 +209,16 @@ Transform:
   - {fileID: 3669227202539279814}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1622723348154038992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899471001354785033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed153e7dc012a9f44a01b42f63d0acd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridText: {fileID: 7225872200065990352}

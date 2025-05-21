@@ -14,6 +14,7 @@ public class UnitActionSystem : MonoBehaviour
     [SerializeField]
     LayerMask unitLayerMask;
 
+    BaseAction selectedAction;
     bool isBusy;
 
     private void Awake()
@@ -29,29 +30,23 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SetSelectedUnit(selectedUnit);
+    }
+
     private void Update()
     {
         if (isBusy) return;
+        if (TryHandleUnitSelection()) return;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (TryHandleUnitSelection()) return;
-            SetBusy(true);
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetMouseWorldPosition());
-            if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
-            {
-                selectedUnit.GetMoveAction().Move(mouseGridPosition, SetBusy);
-            }
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            SetBusy(true);
-            selectedUnit.GetSpinAction().Spin(SetBusy);
-        }
+        HandleSelectedAction();
     }
 
     bool TryHandleUnitSelection()
     {
+        if (!Input.GetMouseButtonDown(0)) return false;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, unitLayerMask))
         {
@@ -72,6 +67,7 @@ public class UnitActionSystem : MonoBehaviour
     void SetSelectedUnit(Unit unit)
     {
         selectedUnit = unit;
+        SetSelectedAction(unit.GetMoveAction());
         OnSelectedUnitChanged?.Invoke(this, selectedUnit);
     }
 
@@ -80,8 +76,36 @@ public class UnitActionSystem : MonoBehaviour
         return selectedUnit;
     }
 
+    public void SetSelectedAction(BaseAction baseAction)
+    {
+        selectedAction = baseAction;
+    }
+
     void SetBusy(bool newBusyState)
     {
         isBusy = newBusyState;
+    }
+
+    void HandleSelectedAction()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetMouseWorldPosition());
+
+            switch (selectedAction)
+            {
+                case MoveAction moveAction:
+                    SetBusy(true);
+                    if (moveAction.IsValidActionGridPosition(mouseGridPosition))
+                    {
+                        moveAction.Move(mouseGridPosition, SetBusy);
+                    }
+                    break;
+                case SpinAction spinAction:
+                    SetBusy(true);
+                    spinAction.Spin(SetBusy);
+                    break;
+            }
+        }
     }
 }

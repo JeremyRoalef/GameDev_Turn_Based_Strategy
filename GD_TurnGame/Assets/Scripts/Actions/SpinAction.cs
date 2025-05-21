@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SpinAction : BaseAction
@@ -26,13 +27,15 @@ public class SpinAction : BaseAction
             {
                 isSpinning = false;
                 isActive = false;
+                OnActionComplete?.Invoke(false);
                 spinAmount = 0;
             }
         }
     }
 
-    public void Spin()
+    public void Spin(Action<bool> OnSpinComplete)
     {
+        this.OnActionComplete = OnSpinComplete;
         isSpinning = true;
         isActive = true;
     }

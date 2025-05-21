@@ -14,6 +14,8 @@ public class UnitActionSystem : MonoBehaviour
     [SerializeField]
     LayerMask unitLayerMask;
 
+    bool isBusy;
+
     private void Awake()
     {
         //Singleton pattern
@@ -29,18 +31,22 @@ public class UnitActionSystem : MonoBehaviour
 
     private void Update()
     {
+        if (isBusy) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             if (TryHandleUnitSelection()) return;
+            SetBusy(true);
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetMouseWorldPosition());
             if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
             {
-                selectedUnit.GetMoveAction().Move(mouseGridPosition);
+                selectedUnit.GetMoveAction().Move(mouseGridPosition, SetBusy);
             }
         }
         if (Input.GetMouseButtonDown(1))
         {
-            selectedUnit.GetSpinAction().Spin();
+            SetBusy(true);
+            selectedUnit.GetSpinAction().Spin(SetBusy);
         }
     }
 
@@ -72,5 +78,10 @@ public class UnitActionSystem : MonoBehaviour
     public Unit GetSelectedUnit()
     {
         return selectedUnit;
+    }
+
+    void SetBusy(bool newBusyState)
+    {
+        isBusy = newBusyState;
     }
 }

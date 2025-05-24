@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 public class UnitActionSystem : MonoBehaviour
 {
     public event EventHandler<Unit> OnSelectedUnitChanged;
-    
+    public event EventHandler OnSelectedActionChanged;
+
     public static UnitActionSystem Instance { get; private set; }
 
     [SerializeField]
@@ -84,6 +85,7 @@ public class UnitActionSystem : MonoBehaviour
     public void SetSelectedAction(BaseAction baseAction)
     {
         selectedAction = baseAction;
+        OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
     }
 
     void SetBusy(bool newBusyState)

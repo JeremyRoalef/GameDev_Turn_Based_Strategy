@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitActionSystemUI : MonoBehaviour
@@ -9,20 +11,30 @@ public class UnitActionSystemUI : MonoBehaviour
     [SerializeField]
     Transform actionButtonContainerTransform;
 
+    List<ActionButtonUI> actionButtonUIList;
+
+    private void Awake()
+    {
+        actionButtonUIList = new List<ActionButtonUI>();
+    }
+
     private void Start()
     {
         CreateUnitActionButtons();
+        UpdateSelectedVisual();
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
+        UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
+    }
+
+    private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
+    {
+        UpdateSelectedVisual();
     }
 
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, Unit e)
     {
         CreateUnitActionButtons();
-    }
-
-    private void Update()
-    {
-        
+        UpdateSelectedVisual();
     }
 
     void CreateUnitActionButtons()
@@ -32,6 +44,8 @@ public class UnitActionSystemUI : MonoBehaviour
             Destroy(buttonTransform.gameObject);
         }
 
+        actionButtonUIList.Clear();
+
         Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
 
         foreach (BaseAction baseAction in selectedUnit.GetBaseActionArray())
@@ -39,6 +53,15 @@ public class UnitActionSystemUI : MonoBehaviour
             Transform actionButton = Instantiate(actionButtonPrefab, actionButtonContainerTransform);
             ActionButtonUI actionButtonUI = actionButton.GetComponent<ActionButtonUI>();
             actionButtonUI.SetBaseAction(baseAction);
+            actionButtonUIList.Add(actionButtonUI);
+        }
+    }
+
+    void UpdateSelectedVisual()
+    {
+        foreach (ActionButtonUI actionButtonUI in actionButtonUIList)
+        {
+            actionButtonUI.UpdateSelectedVisual();
         }
     }
 }

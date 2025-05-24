@@ -58,7 +58,7 @@ public class MoveAction : BaseAction
         transform.forward = Vector3.Lerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
     }
 
-    public void Move(GridPosition targetPos, Action<bool> OnActionComplete)
+    public override void TakeAction(GridPosition targetPos, Action<bool> OnActionComplete)
     {
         base.OnActionComplete = OnActionComplete;
         unitAnimator.SetBool("IsWalking", true);
@@ -66,13 +66,7 @@ public class MoveAction : BaseAction
         isActive = true;
     }
 
-    public bool IsValidActionGridPosition(GridPosition gridPosition)
-    {
-        List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
-        return validGridPositionList.Contains(gridPosition);
-    }
-
-    public List<GridPosition> GetValidActionGridPositionList()
+    public override List<GridPosition> GetValidActionGridPositionList()
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = unit.GetGridPosition();

@@ -132,9 +132,9 @@ public class CameraController : MonoBehaviour
         }
 
         Vector3 moveVector = (
-        //Move forward/backward if there is a move input
+        //TakeAction forward/backward if there is a move input
         transform.forward * inputMoveDir.z) +
-        //Move right/left if there is a move input
+        //TakeAction right/left if there is a move input
         (transform.right * inputMoveDir.x);
 
             transform.position += moveVector * moveSpeed * Time.deltaTime;

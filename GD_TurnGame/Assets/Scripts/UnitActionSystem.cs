@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class UnitActionSystem : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class UnitActionSystem : MonoBehaviour
         {
             Instance = this;
         }
+
         else
         {
             Destroy(gameObject);
@@ -38,6 +40,8 @@ public class UnitActionSystem : MonoBehaviour
     private void Update()
     {
         if (isBusy) return;
+        //Mouse is over a UI element
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (TryHandleUnitSelection()) return;
 
         HandleSelectedAction();
@@ -52,6 +56,7 @@ public class UnitActionSystem : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent<Unit>(out Unit newUnit))
             {
+                if (newUnit == selectedUnit) { return false; }
                 SetSelectedUnit(newUnit);
                 return true;
             }
@@ -91,21 +96,16 @@ public class UnitActionSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetMouseWorldPosition());
-
-            switch (selectedAction)
+            if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
-                case MoveAction moveAction:
-                    SetBusy(true);
-                    if (moveAction.IsValidActionGridPosition(mouseGridPosition))
-                    {
-                        moveAction.Move(mouseGridPosition, SetBusy);
-                    }
-                    break;
-                case SpinAction spinAction:
-                    SetBusy(true);
-                    spinAction.Spin(SetBusy);
-                    break;
+                SetBusy(true);
+                selectedAction.TakeAction(mouseGridPosition, SetBusy);
             }
         }
+    }
+
+    public BaseAction GetSelectedAction()
+    {
+        return selectedAction;
     }
 }

@@ -13,6 +13,9 @@ public class Unit : MonoBehaviour
     [SerializeField]
     int startingActionPoints = 2;
 
+    [SerializeField]
+    bool isEnemy;
+
     int actionPoints;
 
     private void Awake()
@@ -32,9 +35,13 @@ public class Unit : MonoBehaviour
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        //reset action points
-        actionPoints = startingActionPoints;
-        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        //Refresh action points for enemy & player logic
+        if ((isEnemy && !TurnSystem.Instance.IsPlayerTurn()) || 
+            (!isEnemy && TurnSystem.Instance.IsPlayerTurn()))
+        {
+            actionPoints = startingActionPoints;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     void Update()
@@ -100,5 +107,10 @@ public class Unit : MonoBehaviour
     public int GetActionPoints()
     {
         return actionPoints;
+    }
+
+    public bool IsEnemy()
+    {
+        return isEnemy;
     }
 }

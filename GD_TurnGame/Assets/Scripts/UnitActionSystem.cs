@@ -43,6 +43,9 @@ public class UnitActionSystem : MonoBehaviour
     private void Update()
     {
         if (isBusy) return;
+        if (!TurnSystem.Instance.IsPlayerTurn()) return;
+
+
         //Mouse is over a UI element
         if (EventSystem.current.IsPointerOverGameObject()) return;
         if (TryHandleUnitSelection()) return;
@@ -60,6 +63,11 @@ public class UnitActionSystem : MonoBehaviour
             if (raycastHit.transform.TryGetComponent<Unit>(out Unit newUnit))
             {
                 if (newUnit == selectedUnit) { return false; }
+                if (newUnit.IsEnemy())
+                {
+                    return false;
+                }
+
                 SetSelectedUnit(newUnit);
                 return true;
             }

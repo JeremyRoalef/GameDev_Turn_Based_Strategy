@@ -30,4 +30,16 @@ public abstract class BaseAction : MonoBehaviour
         //Default cost
         return 1;
     }
+
+    protected void StartAction(Action<bool> OnActionComplete)
+    {
+        isActive = true;
+        this.OnActionComplete = OnActionComplete;
+    }
+
+    protected void CompleteAction()
+    {
+        isActive = false;
+        OnActionComplete?.Invoke(false);
+    }
 }

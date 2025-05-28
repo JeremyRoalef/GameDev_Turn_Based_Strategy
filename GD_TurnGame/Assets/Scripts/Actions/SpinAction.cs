@@ -27,18 +27,16 @@ public class SpinAction : BaseAction
             if (spinAmount >= 360f)
             {
                 isSpinning = false;
-                isActive = false;
-                OnActionComplete?.Invoke(false);
+                CompleteAction();
                 spinAmount = 0;
             }
         }
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action<bool> OnSpinComplete)
+    public override void TakeAction(GridPosition gridPosition, Action<bool> OnActionComplete)
     {
-        this.OnActionComplete = OnSpinComplete;
+        StartAction(OnActionComplete);
         isSpinning = true;
-        isActive = true;
     }
 
     public override string GetActionName()

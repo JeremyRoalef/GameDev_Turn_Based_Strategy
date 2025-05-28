@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+    public event EventHandler OnShoot;
+
     [SerializeField]
     float aimingStateTime = 0.5f;
 
@@ -15,8 +17,6 @@ public class ShootAction : BaseAction
 
     [SerializeField]
     float rotateSpeed = 10f;
-
-
 
     enum State
     {
@@ -70,6 +70,7 @@ public class ShootAction : BaseAction
                 if (stateTimer <= 0)
                 {
                     CompleteAction();
+                    OnShoot?.Invoke(this, EventArgs.Empty);
                 }
                 break;
         }

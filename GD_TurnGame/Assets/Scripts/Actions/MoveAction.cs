@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
-    [SerializeField]
-    Animator unitAnimator;
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
 
     [SerializeField]
     float moveSpeed = 4f;
@@ -41,17 +41,15 @@ public class MoveAction : BaseAction
         if (Vector3.Distance(transform.position, targetPos) > nearTargetPosDistance)
         {
             //Smooth move to position
-            unitAnimator.SetBool("IsWalking", true);
-
             transform.position += moveDir * Time.deltaTime * moveSpeed;
 
         }
         else
         {
             //Snap to position
-            unitAnimator.SetBool("IsWalking", false);
             transform.position = targetPos;
             CompleteAction();
+            OnStopMoving(this, EventArgs.Empty);
         }
 
         transform.forward = Vector3.Lerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
@@ -60,8 +58,8 @@ public class MoveAction : BaseAction
     public override void TakeAction(GridPosition targetPos, Action<bool> OnActionComplete)
     {
         StartAction(OnActionComplete);
-        unitAnimator.SetBool("IsWalking", true);
         this.targetPos = LevelGrid.Instance.GetWorldPosition(targetPos);
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()

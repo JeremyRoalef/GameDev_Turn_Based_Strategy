@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+    [SerializeField]
+    int damageAmount = 35;
+
     public event EventHandler<OnShootEventArgs> OnShoot;
 
     public class OnShootEventArgs : EventArgs
@@ -61,26 +64,21 @@ public class ShootAction : BaseAction
                 }
                 break;
             case State.Shooting:
-                if (canShootBullet)
-                {
-                    Shoot();
-                    canShootBullet = false;
-                }
                 if (stateTimer <= 0)
                 {
                     state = State.Cooloff;
                     stateTimer = cooloffStateTime;
+                }
+                if (canShootBullet)
+                {
+                    Shoot();
+                    canShootBullet = false;
                 }
                 break;
             case State.Cooloff:
                 if (stateTimer <= 0)
                 {
                     CompleteAction();
-                    OnShoot?.Invoke(this, new OnShootEventArgs
-                    {
-                        targetUnit = targetUnit,
-                        shootingUnit = unit
-                    });
                 }
                 break;
         }
@@ -94,7 +92,13 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
-        targetUnit.Damage();
+        targetUnit.Damage(damageAmount);
+
+        OnShoot?.Invoke(this, new OnShootEventArgs
+        {
+            targetUnit = targetUnit,
+            shootingUnit = unit
+        });
     }
 
     public override string GetActionName()

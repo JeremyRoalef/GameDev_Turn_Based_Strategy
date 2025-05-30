@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
-    public event EventHandler OnShoot;
+    public event EventHandler<OnShootEventArgs> OnShoot;
+
+    public class OnShootEventArgs : EventArgs
+    {
+        public Unit targetUnit;
+        public Unit shootingUnit;
+    }
 
     [SerializeField]
     float aimingStateTime = 0.5f;
@@ -70,7 +76,11 @@ public class ShootAction : BaseAction
                 if (stateTimer <= 0)
                 {
                     CompleteAction();
-                    OnShoot?.Invoke(this, EventArgs.Empty);
+                    OnShoot?.Invoke(this, new OnShootEventArgs
+                    {
+                        targetUnit = targetUnit,
+                        shootingUnit = unit
+                    });
                 }
                 break;
         }

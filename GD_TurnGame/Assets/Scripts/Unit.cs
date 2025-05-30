@@ -118,4 +118,9 @@ public class Unit : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} damaged");
     }
+    
+    public Vector3 GetWorldPosition()
+    {
+        return transform.position;
+    }
 }

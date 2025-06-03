@@ -1112,7 +1112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c6e73735d8f2c946a081ed8be18124d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 417402766}
 --- !u!4 &832281298
 Transform:
   m_ObjectHideFlags: 0
@@ -2493,6 +2492,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSystemVisualSinglePrefab: {fileID: 1557531706881368307, guid: f0fb973e362606641a9e25b2aea92d76, type: 3}
+  gridVisualTypeMaterialList:
+  - gridVisualType: 0
+    material: {fileID: 2100000, guid: 93897b83ff8f9ed41868d0ac5d0246bd, type: 2}
+  - gridVisualType: 1
+    material: {fileID: 2100000, guid: c3d9ba692af6a784daa45d304c596c6f, type: 2}
+  - gridVisualType: 2
+    material: {fileID: 2100000, guid: 834c819ff33df3841a19e5b974d69465, type: 2}
+  - gridVisualType: 3
+    material: {fileID: 2100000, guid: 75e37999d57402a41a3da9206fb98510, type: 2}
+  - gridVisualType: 4
+    material: {fileID: 2100000, guid: fe7ca77ed93e69e48bba790747834631, type: 2}
 --- !u!4 &1887193921
 Transform:
   m_ObjectHideFlags: 0

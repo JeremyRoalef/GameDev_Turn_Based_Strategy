@@ -35,8 +35,8 @@ public class SpinAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action<bool> OnActionComplete)
     {
-        StartAction(OnActionComplete);
         isSpinning = true;
+        StartAction(OnActionComplete);
     }
 
     public override string GetActionName()

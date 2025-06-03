@@ -57,9 +57,9 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition targetPos, Action<bool> OnActionComplete)
     {
-        StartAction(OnActionComplete);
         this.targetPos = LevelGrid.Instance.GetWorldPosition(targetPos);
         OnStartMoving?.Invoke(this, EventArgs.Empty);
+        StartAction(OnActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()

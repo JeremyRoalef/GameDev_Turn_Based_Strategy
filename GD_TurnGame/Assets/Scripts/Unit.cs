@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour
     GridPosition gridPosition;
     MoveAction moveAction;
     SpinAction spinAction;
+    ShootAction shootAction;
     BaseAction[] baseActionArray;
     HealthSystem healthSystem;
 
@@ -26,6 +27,7 @@ public class Unit : MonoBehaviour
     {
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
+        shootAction = GetComponent<ShootAction>();
         baseActionArray = GetComponents<BaseAction>();
         actionPoints = startingActionPoints;
         healthSystem = GetComponent<HealthSystem>();
@@ -140,5 +142,15 @@ public class Unit : MonoBehaviour
     public Vector3 GetWorldPosition()
     {
         return transform.position;
+    }
+
+    public ShootAction GetShootAction()
+    {
+        return shootAction;
+    }
+
+    public float GetHealthNormalized()
+    {
+        return healthSystem.GetHealthNormalized();
     }
 }

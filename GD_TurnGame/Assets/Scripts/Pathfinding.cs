@@ -7,11 +7,14 @@ public class Pathfinding : MonoBehaviour
     [SerializeField]
     Transform gridDebugObjectPrefab;
 
+    [SerializeField]
+    LayerMask obstaclesLayermask;
+
     public static Pathfinding Instance { get; private set; }
 
     int width;
     int height;
-    int cellSize;
+    float cellSize;
     GridSystem<PathNode> gridSystem;
 
     const int MOVE_STRAIGHT_COST = 10;
@@ -28,14 +31,42 @@ public class Pathfinding : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Setup(int width, int height, float cellSize)
+    {
+        this.width = width;
+        this.height = height;
+        this.cellSize = cellSize;
 
         gridSystem = new GridSystem<PathNode>(
-            10,
-            10,
-            2f,
+            width,
+            height,
+            cellSize,
             (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition)
             );
+
         gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
+
+        //Handle path node walkablility
+        for (int x = 0; x < width; x++)
+        {
+            for (int z  = 0; z < height; z++)
+            {
+                GridPosition gridPosition = new GridPosition(x,z);
+                float raycastOffsetDistance = 5f;
+                Vector3 worldPos = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                if (Physics.Raycast(
+                    worldPos + Vector3.down * raycastOffsetDistance, 
+                    Vector3.up, 
+                    raycastOffsetDistance * 2,
+                    obstaclesLayermask
+                    ))
+                {
+                    GetNode(x, z).SetIsWalkable(false);
+                }
+            }
+        }
     }
 
     public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition)
@@ -90,6 +121,12 @@ public class Pathfinding : MonoBehaviour
             {
                 if (closedList.Contains(neighborNode)) { continue; }
 
+                if (!neighborNode.IsWalkable())
+                {
+                    closedList.Add(neighborNode);
+                    continue;
+                }
+
                 int tentativeGCost = currentNode.GetGCost() + CalculateDistance(
                     currentNode.getGridPosition(), 
                     neighborNode.getGridPosition()
@@ -122,7 +159,7 @@ public class Pathfinding : MonoBehaviour
         int xDistance = Mathf.Abs(gridPositionDistance.x);
         int zDistance = Mathf.Abs(gridPositionDistance.z);
         int remaining = Mathf.Abs(xDistance - zDistance);
-        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
+        return (MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance)) + (MOVE_STRAIGHT_COST * remaining);
     }
 
     PathNode GetLowestFCostPathNode(List<PathNode> pathNodeList)

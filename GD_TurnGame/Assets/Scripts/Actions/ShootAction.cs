@@ -7,6 +7,9 @@ public class ShootAction : BaseAction
     [SerializeField]
     int damageAmount = 35;
 
+    [SerializeField]
+    LayerMask obstaclesLayermask;
+
     public event EventHandler<OnShootEventArgs> OnShoot;
 
     public class OnShootEventArgs : EventArgs
@@ -122,8 +125,11 @@ public class ShootAction : BaseAction
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
 
+                float unitShoulderHeight = 1.7f;
+                Vector3 unitWorldPos = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
 
                 //Conditions to continue
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
@@ -131,6 +137,19 @@ public class ShootAction : BaseAction
                 if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) continue;
 
                 Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                Debug.Log(targetUnit);
+                Vector3 shootDir = (targetUnit.GetWorldPosition() - unitWorldPos).normalized;
+
+                if (Physics.Raycast(
+                    unitWorldPos + Vector3.up * unitShoulderHeight,
+                    shootDir,
+                    Vector3.Distance(unitWorldPos, targetUnit.GetWorldPosition()),
+                    obstaclesLayermask
+                    ))
+                {
+                    //Blocked by an obstacle
+                    continue;
+                }
 
                 //If on same team, continue
                 if (targetUnit.IsEnemy() == unit.IsEnemy()) continue;

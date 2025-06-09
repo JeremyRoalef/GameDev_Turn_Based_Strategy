@@ -8,9 +8,6 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitDead;
 
     GridPosition gridPosition;
-    MoveAction moveAction;
-    SpinAction spinAction;
-    ShootAction shootAction;
     BaseAction[] baseActionArray;
     HealthSystem healthSystem;
 
@@ -25,9 +22,6 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        moveAction = GetComponent<MoveAction>();
-        spinAction = GetComponent<SpinAction>();
-        shootAction = GetComponent<ShootAction>();
         baseActionArray = GetComponents<BaseAction>();
         actionPoints = startingActionPoints;
         healthSystem = GetComponent<HealthSystem>();
@@ -74,14 +68,16 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public MoveAction GetMoveAction()
+    public T GetAction<T>() where T : BaseAction
     {
-        return moveAction;
-    }
-
-    public SpinAction GetSpinAction()
-    {
-        return spinAction;
+        foreach(BaseAction baseAction in baseActionArray)
+        {
+            if (baseAction is T)
+            {
+                return (T)baseAction;
+            }
+        }
+        return null;
     }
 
     public GridPosition GetGridPosition()
@@ -142,11 +138,6 @@ public class Unit : MonoBehaviour
     public Vector3 GetWorldPosition()
     {
         return transform.position;
-    }
-
-    public ShootAction GetShootAction()
-    {
-        return shootAction;
     }
 
     public float GetHealthNormalized()

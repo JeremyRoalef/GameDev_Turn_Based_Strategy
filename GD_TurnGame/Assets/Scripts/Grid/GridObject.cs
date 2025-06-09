@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class GridObject
 {
-    GridSystem gridSystem;
+    GridSystem<GridObject> gridSystem;
     GridPosition gridPosition;
 
     public List<Unit> units = new List<Unit>();
 
-    public GridObject(GridSystem gridSystem, GridPosition gridPosition)
+    public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition)
     {
         this.gridSystem = gridSystem;
         this.gridPosition = gridPosition;

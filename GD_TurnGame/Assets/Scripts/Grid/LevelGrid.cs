@@ -10,7 +10,7 @@ public class LevelGrid : MonoBehaviour
     Transform gridDebugObjectPrefab;
 
     public static LevelGrid Instance;
-    GridSystem gridSystem;
+    GridSystem<GridObject> gridSystem;
 
     private void Awake()
     {
@@ -24,7 +24,11 @@ public class LevelGrid : MonoBehaviour
             Destroy(gameObject);
         }
 
-        gridSystem = new GridSystem(10, 10, 2);
+        gridSystem = new GridSystem<GridObject>(
+            10, 
+            10, 
+            2, 
+            (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
         gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
     }
 

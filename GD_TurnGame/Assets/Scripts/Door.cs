@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, IInteractible
 {
     [SerializeField]
     Animator animator;
@@ -13,7 +13,7 @@ public class Door : MonoBehaviour
     [SerializeField]
     float timer = 1f;
 
-    Action onInteractComplete;
+    Action onInteractionComplete;
     bool isActive = false;
 
     private void Awake()
@@ -24,7 +24,7 @@ public class Door : MonoBehaviour
     private void Start()
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.SetDoorAtGridPosition(gridPosition, this);
+        LevelGrid.Instance.SetInteractibleAtGridPosition(gridPosition, this);
 
         if (isOpen)
         {
@@ -45,13 +45,13 @@ public class Door : MonoBehaviour
         if (timer <= 0)
         {
             isActive = false;
-            onInteractComplete();
+            onInteractionComplete();
         }
     }
 
-    public void Interact(Action onInteractComplete)
+    public void Interact(Action onInteractionComplete)
     {
-        this.onInteractComplete = onInteractComplete;
+        this.onInteractionComplete = onInteractionComplete;
         isActive = true;
 
         if (isOpen)

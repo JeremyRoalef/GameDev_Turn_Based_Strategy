@@ -46,7 +46,6 @@ public class GrenadeAction : BaseAction
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
 
-                float unitShoulderHeight = 1.7f;
                 Vector3 unitWorldPos = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
 
                 //Conditions to continue

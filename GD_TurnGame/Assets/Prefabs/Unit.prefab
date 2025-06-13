@@ -556,6 +556,7 @@ GameObject:
   - component: {fileID: -6595158352810268870}
   - component: {fileID: -310587482215327021}
   - component: {fileID: 357138351547568316}
+  - component: {fileID: 7203065996973277702}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -752,6 +753,18 @@ MonoBehaviour:
   SwingingSwordAfterHitTimer: 0.5
   damageAmount: 150
   rotateSpeed: 10
+--- !u!114 &7203065996973277702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985146391999059998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb63e187550b90a4f820e7aaf2a0305e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8737728568696152226
 GameObject:
   m_ObjectHideFlags: 0

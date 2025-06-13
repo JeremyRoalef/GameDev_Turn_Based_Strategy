@@ -61,82 +61,44 @@ public class CameraController : MonoBehaviour
         float newZoomPos;
         float zoomRatio;
 
-        if (Input.mouseScrollDelta.y > 0)
-        {
-            //zoom in
-            newZoomPos = cinemachinePositionComposer.CameraDistance - (zoomSpeed * Time.deltaTime);
-            cinemachinePositionComposer.CameraDistance = Mathf.Clamp(
-                newZoomPos,
-                minCameraDistance,
-                maxCameraDistance);
+        float zoomDir = InputManager.Instance.GetCameraZoomAmount();
+        if (zoomDir == 0) return;
 
-            zoomRatio = 
-                (float)(cinemachinePositionComposer.CameraDistance - minCameraDistance)/
-                (maxCameraDistance-minCameraDistance);
-            //Camera y offset
-            cinemachinePositionComposer.TargetOffset.y = 
-                (zoomRatio * (maxCameraYOffset - minCameraYOffset)) + 
-                minCameraYOffset;
-        }
-        if (Input.mouseScrollDelta.y < 0)
-        {
-            //zoom out
-            newZoomPos = cinemachinePositionComposer.CameraDistance + (zoomSpeed * Time.deltaTime);
-            cinemachinePositionComposer.CameraDistance = Mathf.Clamp(
-                newZoomPos,
-                minCameraDistance,
-                maxCameraDistance);
+        //Zoom in/out
+        newZoomPos = cinemachinePositionComposer.CameraDistance + (zoomDir * zoomSpeed * Time.deltaTime);
+        cinemachinePositionComposer.CameraDistance = Mathf.Clamp(
+            newZoomPos,
+            minCameraDistance,
+            maxCameraDistance);
 
-            zoomRatio =
-                (float)(cinemachinePositionComposer.CameraDistance - minCameraDistance) /
-                (maxCameraDistance - minCameraDistance);
-            //Camera y offset
-            cinemachinePositionComposer.TargetOffset.y =
-                (zoomRatio * (maxCameraYOffset - minCameraYOffset)) +
-                minCameraYOffset;
-        }
+        zoomRatio =
+            (float)(cinemachinePositionComposer.CameraDistance - minCameraDistance) /
+            (maxCameraDistance - minCameraDistance);
+
+        //Camera y offset
+        cinemachinePositionComposer.TargetOffset.y =
+            (zoomRatio * (maxCameraYOffset - minCameraYOffset)) +
+            minCameraYOffset;
     }
 
     private void HandleCameraRotation()
     {
         Vector3 rotationVector = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.Q))
-        {
-            rotationVector.y = -1f;
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            rotationVector.y = 1f;
-        }
+
+        rotationVector.y = InputManager.Instance.GetCameraRotateAmount();
         transform.eulerAngles += rotationVector * rotationSpeed * Time.deltaTime;
     }
 
     private void HandleCameraMovement()
     {
-        Vector3 inputMoveDir = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputMoveDir.z = 1f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            inputMoveDir.z = -1f;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            inputMoveDir.x = -1f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            inputMoveDir.x = 1f;
-        }
+        Vector2 inputMoveDir = InputManager.Instance.GetCameraMoveVector();
 
         Vector3 moveVector = (
-        //TakeAction forward/backward if there is a move input
-        transform.forward * inputMoveDir.z) +
-        //TakeAction right/left if there is a move input
-        (transform.right * inputMoveDir.x);
+            //TakeAction forward/backward if there is a move input
+            transform.forward * inputMoveDir.y) +
+            //TakeAction right/left if there is a move input
+            (transform.right * inputMoveDir.x);
 
-            transform.position += moveVector * moveSpeed * Time.deltaTime;
-        }
+        transform.position += moveVector * moveSpeed * Time.deltaTime;
+    }
 }

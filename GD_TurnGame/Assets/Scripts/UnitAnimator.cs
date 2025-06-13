@@ -13,6 +13,12 @@ public class UnitAnimator : MonoBehaviour
     [SerializeField]
     Transform shootPointTransform;
 
+    [SerializeField]
+    Transform rifleTransform;
+
+    [SerializeField]
+    Transform meleeWeaponTransform;
+
     private void Awake()
     {
         if(TryGetComponent<MoveAction>(out MoveAction moveAction))
@@ -25,6 +31,28 @@ public class UnitAnimator : MonoBehaviour
         {
             shootAction.OnShoot += ShootAction_OnShoot;
         }
+
+        if (TryGetComponent<MeleeAction>(out MeleeAction meleeAction))
+        {
+            meleeAction.OnMeleeActionStarted += MeleeAction_OnMeleeActionStarted;
+            meleeAction.OnMeleeActionCompleted += MeleeAction_OnMeleeActionCompleted;
+        }
+    }
+
+    private void Start()
+    {
+        EquipRifle();
+    }
+
+    private void MeleeAction_OnMeleeActionCompleted(object sender, EventArgs e)
+    {
+        EquipRifle();
+    }
+
+    private void MeleeAction_OnMeleeActionStarted(object sender, EventArgs e)
+    {
+        EquipMeleeWeapon();
+        animator.SetTrigger("Melee");
     }
 
     private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e)
@@ -48,5 +76,16 @@ public class UnitAnimator : MonoBehaviour
     private void MoveAction_OnStartMoving(object sender, EventArgs e)
     {
         animator.SetBool("IsWalking", true);
+    }
+
+    void EquipMeleeWeapon()
+    {
+        meleeWeaponTransform.gameObject.SetActive(true);
+        rifleTransform.gameObject.SetActive(false);
+    }
+    void EquipRifle()
+    {
+        meleeWeaponTransform.gameObject.SetActive(false);
+        rifleTransform.gameObject.SetActive(true);
     }
 }

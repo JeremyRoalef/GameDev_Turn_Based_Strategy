@@ -10,6 +10,7 @@ public class ShootAction : BaseAction
     [SerializeField]
     LayerMask obstaclesLayermask;
 
+    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
 
     public class OnShootEventArgs : EventArgs
@@ -96,7 +97,11 @@ public class ShootAction : BaseAction
     private void Shoot()
     {
         targetUnit.Damage(damageAmount);
-
+        OnAnyShoot?.Invoke(this, new OnShootEventArgs
+        {
+            targetUnit = targetUnit,
+            shootingUnit = unit
+        });
         OnShoot?.Invoke(this, new OnShootEventArgs
         {
             targetUnit = targetUnit,

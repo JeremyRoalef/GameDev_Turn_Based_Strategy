@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class CameraManager : MonobehaviourEventListener
 {
+    [Header("References")]
     [SerializeField]
     GameObject actionCameraObj;
 
-    [Header("Shoot Action")]
+    [Header("Shoot Action Settings")]
     [SerializeField]
     Vector3 cameraCharacterHeight = Vector3.up * 1.7f;
 

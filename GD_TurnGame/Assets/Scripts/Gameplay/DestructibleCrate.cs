@@ -5,9 +5,17 @@ public class DestructibleCrate : MonoBehaviour
 {
     public static event EventHandler OnAnyDestroyed;
 
+    [Header("References")]
     [SerializeField]
     Transform crateDestroyedPrefab;
-    
+
+    [Header("Settings")]
+    [SerializeField]
+    float explosionForce = 150f;
+
+    [SerializeField]
+    float explosionRange = 10f;
+
     GridPosition gridPosition;
 
     private void Start()
@@ -18,8 +26,8 @@ public class DestructibleCrate : MonoBehaviour
     public void Damage()
     {
         OnAnyDestroyed?.Invoke(this, EventArgs.Empty);
-        Transform crateDestroyedTransofrm = Instantiate(crateDestroyedPrefab, transform.position, transform.rotation);
-        ApplyExplosionToChildren(crateDestroyedTransofrm, 150, transform.position, 10);
+        Transform crateDestroyedTransform = Instantiate(crateDestroyedPrefab, transform.position, transform.rotation);
+        ApplyExplosionToChildren(crateDestroyedTransform, explosionForce, transform.position, explosionRange);
         Destroy(gameObject);
     }
 

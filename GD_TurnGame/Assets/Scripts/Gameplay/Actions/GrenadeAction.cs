@@ -10,13 +10,6 @@ public class GrenadeAction : BaseAction
     [SerializeField]
     int maxThrowDistance = 7;
 
-    private void Update()
-    {
-        if (!isActive) return;
-
-
-    }
-
     public override string GetActionName()
     {
         return "Grenade";

@@ -3,17 +3,20 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractible
 {
+    [Header("References")]
     [SerializeField]
     Animator animator;
 
+    [Header("Settings")]
     [SerializeField]
     bool isOpen;
-    GridPosition gridPosition;
 
     [SerializeField]
-    float timer = 1f;
+    float interactionDuration = 1f;
 
+    GridPosition gridPosition;
     Action onInteractionComplete;
+
     bool isActive = false;
 
     private void Awake()
@@ -40,9 +43,9 @@ public class Door : MonoBehaviour, IInteractible
     {
         if (!isActive) return;
 
-        timer -= Time.deltaTime;
+        interactionDuration -= Time.deltaTime;
 
-        if (timer <= 0)
+        if (interactionDuration <= 0)
         {
             isActive = false;
             onInteractionComplete();

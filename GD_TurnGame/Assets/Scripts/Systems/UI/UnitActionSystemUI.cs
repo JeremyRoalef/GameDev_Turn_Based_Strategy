@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -10,10 +9,10 @@ public class UnitActionSystemUI : MonobehaviourEventListener
     Transform actionButtonPrefab;
 
     [SerializeField]
-    Transform actionButtonContainerTransform;
+    TextMeshProUGUI actionPointsText;
 
     [SerializeField]
-    TextMeshProUGUI actionPointsText;
+    Transform actionButtonContainerTransform;
 
     List<ActionButtonUI> actionButtonUIList;
 

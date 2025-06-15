@@ -4,6 +4,8 @@ using UnityEngine;
 public class PathNode
 {
     GridPosition gridPosition;
+    PathNode cameFromPathNode;
+
     /// <summary>
     /// Cost of walking to the node
     /// </summary>
@@ -18,8 +20,6 @@ public class PathNode
     int fCost;
 
     bool isWalkable = true;
-
-    PathNode cameFromPathNode;
 
     public PathNode(GridPosition gridPosition)
     {

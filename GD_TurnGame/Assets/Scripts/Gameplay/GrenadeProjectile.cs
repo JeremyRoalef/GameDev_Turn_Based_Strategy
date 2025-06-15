@@ -5,6 +5,7 @@ public class GrenadeProjectile : MonoBehaviour
 {
     public static event EventHandler OnAnyGrenadeExploded;
 
+    [Header("References")]
     [SerializeField]
     Transform grenadeExplosionVFXPrefab;
 
@@ -14,28 +15,37 @@ public class GrenadeProjectile : MonoBehaviour
     [SerializeField]
     AnimationCurve arcYAnimationCurve;
 
-    Vector3 targetPosition;
+    [Header("Settings")]
+    [SerializeField]
+    float moveSpeed = 15f;
+
     Action OnGrenadeBehaviorComplete;
+    Vector3 targetPosition;
+    Vector3 positionXZ;
+    Vector3 moveDir;
 
     float totalDistance;
-    Vector3 positionXZ;
+    float distance;
+    float distanceNormalized;
+    float maxHeight;
+    float positionY;
+
+    const float REACHED_TARGET_DISTANCE = 0.2f;
 
     private void Update()
     {
-        Vector3 moveDir = (targetPosition-positionXZ).normalized;
-        float moveSpeed = 15f;
-        float distance = Vector3.Distance(positionXZ, targetPosition);
-        float distanceNormalized = totalDistance == 0? 1: 1 - (distance / totalDistance);
-        float reachedTargetDistance = 0.2f;
+        moveDir = (targetPosition-positionXZ).normalized;
+        distance = Vector3.Distance(positionXZ, targetPosition);
+        distanceNormalized = totalDistance == 0? 1: 1 - (distance / totalDistance);
         positionXZ += moveDir * moveSpeed * Time.deltaTime;
 
-        float maxHeight = totalDistance / 3f;
-        float positionY = arcYAnimationCurve.Evaluate(distanceNormalized) * maxHeight;
+        maxHeight = totalDistance / 3f;
+        positionY = arcYAnimationCurve.Evaluate(distanceNormalized) * maxHeight;
 
 
         transform.position = new Vector3(positionXZ.x, positionY, positionXZ.z);
 
-        if (Vector3.Distance(positionXZ, targetPosition) <= reachedTargetDistance)
+        if (Vector3.Distance(positionXZ, targetPosition) <= REACHED_TARGET_DISTANCE)
         {
             float damageRadius = 4f;
 

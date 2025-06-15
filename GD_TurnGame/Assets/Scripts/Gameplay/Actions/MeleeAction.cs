@@ -28,8 +28,9 @@ public class MeleeAction : BaseAction
     }
 
     State state;
-    Unit targetUnit;
     Vector3 targetPos;
+    Unit targetUnit;
+
     float stateTimer;
     int maxMeleeDistance = 1;
 

@@ -19,6 +19,7 @@ public class Pathfinding : MonoBehaviour
 
     const int MOVE_STRAIGHT_COST = 10;
     const int MOVE_DIAGONAL_COST = 14;
+    const float RAYCAST_OFFSET_DISTANCE = 5f;
 
     private void Awake()
     {
@@ -54,12 +55,11 @@ public class Pathfinding : MonoBehaviour
             for (int z  = 0; z < height; z++)
             {
                 GridPosition gridPosition = new GridPosition(x,z);
-                float raycastOffsetDistance = 5f;
                 Vector3 worldPos = LevelGrid.Instance.GetWorldPosition(gridPosition);
                 if (Physics.Raycast(
-                    worldPos + Vector3.down * raycastOffsetDistance, 
+                    worldPos + Vector3.down * RAYCAST_OFFSET_DISTANCE, 
                     Vector3.up, 
-                    raycastOffsetDistance * 2,
+                    RAYCAST_OFFSET_DISTANCE * 2,
                     obstaclesLayermask
                     ))
                 {

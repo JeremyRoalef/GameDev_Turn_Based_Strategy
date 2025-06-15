@@ -3,16 +3,24 @@ using UnityEngine;
 
 public class MouseWorld : MonoBehaviour
 {
-    //Static reference to the mouse position
-    static MouseWorld instance;
-
     [SerializeField]
     LayerMask mousePlaneLayer;
 
+    //Static reference to the mouse position
+    static MouseWorld instance;
+
     private void Awake() 
     {
-        //Set singleton
-        instance = this;
+        //Singleton pattern
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
 

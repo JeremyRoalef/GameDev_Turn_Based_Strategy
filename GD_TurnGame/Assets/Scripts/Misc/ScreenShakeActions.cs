@@ -3,6 +3,16 @@ using UnityEngine;
 
 public class ScreenShakeActions : MonobehaviourEventListener
 {
+    [SerializeField]
+    float meleeActionScreenShakeIntensity = 0.2f;
+
+    [SerializeField]
+    float grenadeActionScreenShakeIntensity = 0.5f;
+
+    [SerializeField]
+    float shootActionScreenShakeIntensity = 1f;
+
+
     private void Start()
     {
         SubscribeEvents();
@@ -28,16 +38,16 @@ public class ScreenShakeActions : MonobehaviourEventListener
 
     private void MeleeAction_OnAnyMeleeWeaponHit(object sender, EventArgs e)
     {
-        ScreenShake.Instance.Shake(0.2f);
+        ScreenShake.Instance.Shake(meleeActionScreenShakeIntensity);
     }
 
     private void GrenadeProjectile_OnAnyGrenadeExploded(object sender, EventArgs e)
     {
-        ScreenShake.Instance.Shake(0.5f);
+        ScreenShake.Instance.Shake(grenadeActionScreenShakeIntensity);
     }
 
     private void ShootAction_OnAnyShoot(object sender, ShootAction.OnShootEventArgs e)
     {
-        ScreenShake.Instance.Shake();
+        ScreenShake.Instance.Shake(shootActionScreenShakeIntensity);
     }
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class InteractAction : BaseAction
 {
-    int maxINteractDistance = 1;
+    [SerializeField]
+    int maxInteractDistance = 1;
 
     private void Update()
     {
@@ -31,9 +32,9 @@ public class InteractAction : BaseAction
 
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        for (int x = -maxINteractDistance; x <= maxINteractDistance; x++)
+        for (int x = -maxInteractDistance; x <= maxInteractDistance; x++)
         {
-            for (int z = -maxINteractDistance; z <= maxINteractDistance; z++)
+            for (int z = -maxInteractDistance; z <= maxInteractDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;

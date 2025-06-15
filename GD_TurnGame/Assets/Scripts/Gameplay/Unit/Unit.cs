@@ -7,16 +7,15 @@ public class Unit : MonobehaviourEventListener
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
 
-    GridPosition gridPosition;
-    BaseAction[] baseActionArray;
-    HealthSystem healthSystem;
-
-
     [SerializeField]
     int startingActionPoints = 2;
 
     [SerializeField]
     bool isEnemy;
+
+    GridPosition gridPosition;
+    BaseAction[] baseActionArray;
+    HealthSystem healthSystem;
 
     int actionPoints;
 

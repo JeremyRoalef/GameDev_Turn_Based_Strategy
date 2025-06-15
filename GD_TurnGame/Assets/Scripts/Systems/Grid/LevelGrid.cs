@@ -6,12 +6,13 @@ public class LevelGrid : MonoBehaviour
 {
     public event EventHandler OnAnyUnitMoveGridPosition;
 
+    public static LevelGrid Instance;
+
+    [Header("References")]
     [SerializeField]
     Transform gridDebugObjectPrefab;
 
-    public static LevelGrid Instance;
-    GridSystem<GridObject> gridSystem;
-
+    [Header("Settings")]
     [SerializeField]
     int width = 10;
     
@@ -20,6 +21,8 @@ public class LevelGrid : MonoBehaviour
 
     [SerializeField]
     float cellSize = 2;
+
+    GridSystem<GridObject> gridSystem;
 
     private void Awake()
     {

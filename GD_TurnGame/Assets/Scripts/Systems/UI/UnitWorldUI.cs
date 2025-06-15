@@ -6,16 +6,16 @@ using UnityEngine.UI;
 public class UnitWorldUI : MonobehaviourEventListener
 {
     [SerializeField]
-    TextMeshProUGUI actionPointsText;
-
-    [SerializeField]
     Unit unit;
 
     [SerializeField]
-    Image healthBarImage;
+    HealthSystem healthSystem;
 
     [SerializeField]
-    HealthSystem healthSystem;
+    TextMeshProUGUI actionPointsText;
+
+    [SerializeField]
+    Image healthBarImage;
 
     private void Start()
     {

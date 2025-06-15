@@ -8,8 +8,11 @@ public class TurnSystem : MonoBehaviour
 
     public event EventHandler OnTurnChanged;
 
-    int turnNumber = 1;
+    [SerializeField]
+    [Tooltip("Set true for game to start on player's turn")]
     bool isPlayerTurn = true;
+
+    int turnNumber = 1;
 
     private void Awake()
     {

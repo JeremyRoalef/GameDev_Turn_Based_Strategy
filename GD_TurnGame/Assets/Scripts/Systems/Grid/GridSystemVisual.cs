@@ -5,14 +5,6 @@ using UnityEngine;
 
 public class GridSystemVisual : MonobehaviourEventListener
 {
-    public static GridSystemVisual Instance { get; private set; }
-
-    [SerializeField]
-    Transform gridSystemVisualSinglePrefab;
-
-    [SerializeField]
-    List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
-
     public enum GridVisualType
     {
         White,
@@ -28,6 +20,14 @@ public class GridSystemVisual : MonobehaviourEventListener
         public GridVisualType gridVisualType;
         public Material material;
     }
+
+    public static GridSystemVisual Instance { get; private set; }
+
+    [SerializeField]
+    Transform gridSystemVisualSinglePrefab;
+
+    [SerializeField]
+    List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
 
     GridSystemVisualSingle[,] gridSystemVisualSingleArray;
 

@@ -6,6 +6,7 @@ public class LookAtCamera : MonoBehaviour
     bool invert = false;
 
     Transform cameraTransform;
+    Vector3 directionToFaceCamera;
 
     private void Start()
     {
@@ -16,8 +17,8 @@ public class LookAtCamera : MonoBehaviour
     {
         if (invert)
         {
-            Vector3 dirToCamera = (cameraTransform.position - transform.position).normalized;
-            transform.LookAt(transform.position - dirToCamera);
+            directionToFaceCamera = (cameraTransform.position - transform.position).normalized;
+            transform.LookAt(transform.position - directionToFaceCamera);
         }
         else
         {

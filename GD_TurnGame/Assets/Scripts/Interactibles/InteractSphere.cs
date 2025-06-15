@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class InteractSphere : MonoBehaviour, IInteractible
 {
+    public enum InteractSphereState
+    {
+        Green,
+        Red
+    }
+
+    [Header("References")]
     [SerializeField]
     Material greenMaterial;
 
@@ -12,14 +19,18 @@ public class InteractSphere : MonoBehaviour, IInteractible
     [SerializeField]
     MeshRenderer meshRenderer;
 
-    bool isGreen = true;
-    Action onInteractionComplete;
-
     [SerializeField]
-    float timer = 0.5f;
+    InteractSphereState interactSphereState;
+
+    [Header("Settings")]
+    [SerializeField]
+    float interactionDuration = 0.5f;
+
+    Action onInteractionComplete;
+    GridPosition gridPosition;
 
     bool isActive = false;
-    GridPosition gridPosition;
+
 
     private void Start()
     {
@@ -33,9 +44,9 @@ public class InteractSphere : MonoBehaviour, IInteractible
     {
         if (!isActive) return;
 
-        timer -= Time.deltaTime;
+        interactionDuration -= Time.deltaTime;
 
-        if (timer <= 0)
+        if (interactionDuration <= 0)
         {
             isActive = false;
             onInteractionComplete();
@@ -44,13 +55,13 @@ public class InteractSphere : MonoBehaviour, IInteractible
 
     void SetColorGreen()
     {
-        isGreen = true;
+        interactSphereState = InteractSphereState.Green;
         meshRenderer.material = greenMaterial;
     }
 
     void SetColorRed()
     {
-        isGreen = false;
+        interactSphereState = InteractSphereState.Red;
         meshRenderer.material = redMaterial;
     }
 
@@ -59,13 +70,17 @@ public class InteractSphere : MonoBehaviour, IInteractible
         isActive = true;
         this.onInteractionComplete = onInteractionComplete;
 
-        if (isGreen)
+        switch (interactSphereState)
         {
-            SetColorRed();
-        }
-        else
-        {
-            SetColorGreen();
+            case InteractSphereState.Green:
+                SetColorRed();
+                break;
+            case InteractSphereState.Red:
+                SetColorGreen();
+                break;
+            default:
+                SetColorGreen();
+                break;
         }
     }
 }

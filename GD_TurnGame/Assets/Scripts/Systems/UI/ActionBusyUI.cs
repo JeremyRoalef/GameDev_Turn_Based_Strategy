@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonobehaviourEventListener
+public class ActionBusyUI : MonobehaviourEventListener
 {
     private void Start()
     {

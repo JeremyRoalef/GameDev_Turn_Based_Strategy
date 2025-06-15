@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
-    [SerializeField]
-    int damageAmount = 35;
-
-    [SerializeField]
-    LayerMask obstaclesLayermask;
-
-    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
-    public event EventHandler<OnShootEventArgs> OnShoot;
-
     public class OnShootEventArgs : EventArgs
     {
         public Unit targetUnit;
         public Unit shootingUnit;
     }
+
+    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
+    public event EventHandler<OnShootEventArgs> OnShoot;
+
+    [Header("References")]
+    [SerializeField]
+    LayerMask obstaclesLayermask;
+
+    [Header("Settings")]
+    [SerializeField]
+    int damageAmount = 35;
 
     [SerializeField]
     float aimingStateTime = 0.5f;
@@ -39,8 +41,8 @@ public class ShootAction : BaseAction
     }
 
     State state;
-    Unit targetUnit;
     Vector3 targetPos;
+    Unit targetUnit;
 
     float stateTimer;
     int maxShootDistance = 7;

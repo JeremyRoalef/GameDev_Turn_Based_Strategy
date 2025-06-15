@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
 {
-    [SerializeField]
-    float moveSpeed = 200f;
-
+    [Header("References")]
     [SerializeField]
     TrailRenderer trailRenderer;
 
     [SerializeField]
     Transform bulletHitVFXPrefab;
+
+    [Header("Settings")]
+    [SerializeField]
+    float moveSpeed = 200f;
 
     Vector3 targetPos;
 

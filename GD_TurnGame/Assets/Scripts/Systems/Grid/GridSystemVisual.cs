@@ -46,6 +46,10 @@ public class GridSystemVisual : MonoBehaviour
 
     private void Start()
     {
+        //Parent Grid System visual object
+        GameObject gridSystemVisualSingleParentObj = new GameObject();
+        gridSystemVisualSingleParentObj.name = "Grid System Visual Single Objects";
+
         gridSystemVisualSingleArray = new GridSystemVisualSingle[LevelGrid.Instance.GetWidth(), LevelGrid.Instance.GetHeight()];
 
         for (int x = 0; x < LevelGrid.Instance.GetWidth(); x++)
@@ -54,13 +58,28 @@ public class GridSystemVisual : MonoBehaviour
             {
                 GridPosition gridPosition = new GridPosition(x,z);
                 Transform gridSystemVisualSingleTransform = Instantiate(gridSystemVisualSinglePrefab, LevelGrid.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
-
+                gridSystemVisualSingleTransform.parent = gridSystemVisualSingleParentObj.transform;
+                gridSystemVisualSingleTransform.name = $"({x}, {z})";
                 gridSystemVisualSingleArray[x, z] = gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
             }
         }
 
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnBusyChanged += UnitActionSystem_OnBusyChanged;
         LevelGrid.Instance.OnAnyUnitMoveGridPosition += LevelGrid_OnAnyUnitMoveGridPosition;
+    }
+
+    private void UnitActionSystem_OnBusyChanged(object sender, bool isBusy)
+    {
+        if (!isBusy)
+        {
+            UpdateGridVisual();
+        }
+    }
+
+    private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
+    {
+        UpdateGridVisual();
     }
 
     private void LevelGrid_OnAnyUnitMoveGridPosition(object sender, EventArgs e)
@@ -79,6 +98,7 @@ public class GridSystemVisual : MonoBehaviour
         {
             for (int z = 0;z < LevelGrid.Instance.GetHeight(); z++)
             {
+                Debug.Log(gridSystemVisualSingleArray[x, z]);
                 gridSystemVisualSingleArray[x,z].Hide();
             }
         }

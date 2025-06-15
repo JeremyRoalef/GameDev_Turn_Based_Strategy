@@ -13,7 +13,15 @@ public class GridSystemVisualSingle : MonoBehaviour
 
     public void Hide()
     {
-        meshRenderer.enabled = false;
+        if (!meshRenderer)
+        {
+            TryGetComponent<MeshRenderer>(out meshRenderer);
+        }
+
+        if (meshRenderer)
+        {
+            meshRenderer.enabled = false;
+        }
     }
 
 }

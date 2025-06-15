@@ -2027,7 +2027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 23.3}
+  m_AnchoredPosition: {x: 0, y: 23.299805}
   m_SizeDelta: {x: 1101.54, y: 257.373}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &928876959
@@ -2984,7 +2984,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -55.98999, y: -55.45}
+  m_AnchoredPosition: {x: -55.990234, y: -55.450195}
   m_SizeDelta: {x: 256.98, y: 93.2}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1160462014
@@ -3160,7 +3160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 23.3}
+  m_AnchoredPosition: {x: 0, y: 23.299805}
   m_SizeDelta: {x: 1101.54, y: 257.373}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &1364148247
@@ -4020,7 +4020,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1887193921}
-  - component: {fileID: 1887193920}
+  - component: {fileID: 1887193922}
   m_Layer: 0
   m_Name: GridSystemVisual
   m_TagString: Untagged
@@ -4028,7 +4028,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1887193920
+--- !u!4 &1887193921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887193919}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.7941897, y: 7.583155, z: -7.288654}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1887193922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4052,21 +4067,6 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: 75e37999d57402a41a3da9206fb98510, type: 2}
   - gridVisualType: 4
     material: {fileID: 2100000, guid: fe7ca77ed93e69e48bba790747834631, type: 2}
---- !u!4 &1887193921
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887193919}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.7941897, y: 7.583155, z: -7.288654}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1898262727
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UnitActionSystemUI : MonoBehaviour
+public class UnitActionSystemUI : MonobehaviourEventListener
 {
     [SerializeField]
     Transform actionButtonPrefab;
@@ -17,7 +17,7 @@ public class UnitActionSystemUI : MonoBehaviour
 
     List<ActionButtonUI> actionButtonUIList;
 
-    private void Awake()
+    void Awake()
     {
         actionButtonUIList = new List<ActionButtonUI>();
     }
@@ -27,13 +27,28 @@ public class UnitActionSystemUI : MonoBehaviour
         CreateUnitActionButtons();
         UpdateSelectedVisual();
         UpdateActionPoints();
+        SubscribeEvents();
+    }
 
+    protected override void SubscribeEvents()
+    {
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnActionStarted += UnitActionSystem_OnActionStarted;
     }
+
+    protected override void UnsubscribeEvents()
+    {
+        Unit.OnAnyActionPointsChanged -= Unit_OnAnyActionPointsChanged;
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+        UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnActionStarted -= UnitActionSystem_OnActionStarted;
+    }
+
+
 
     private void Unit_OnAnyActionPointsChanged(object sender, EventArgs e)
     {
@@ -61,6 +76,8 @@ public class UnitActionSystemUI : MonoBehaviour
         UpdateSelectedVisual();
         UpdateActionPoints();
     }
+
+
 
     void CreateUnitActionButtons()
     {

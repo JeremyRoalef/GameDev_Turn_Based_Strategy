@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UnitAnimator : MonoBehaviour
+public class UnitAnimator : MonobehaviourEventListener
 {
     [SerializeField]
     Animator animator;
@@ -21,13 +21,25 @@ public class UnitAnimator : MonoBehaviour
 
     private void Awake()
     {
-        if(TryGetComponent<MoveAction>(out MoveAction moveAction))
+        SubscribeEvents();
+    }
+
+    private void Start()
+    {
+        EquipRifle();
+    }
+
+
+
+    protected override void SubscribeEvents()
+    {
+        if (TryGetComponent<MoveAction>(out MoveAction moveAction))
         {
             moveAction.OnStartMoving += MoveAction_OnStartMoving;
             moveAction.OnStopMoving += MoveAction_OnStopMoving;
         }
 
-        if(TryGetComponent<ShootAction>(out ShootAction shootAction))
+        if (TryGetComponent<ShootAction>(out ShootAction shootAction))
         {
             shootAction.OnShoot += ShootAction_OnShoot;
         }
@@ -39,10 +51,27 @@ public class UnitAnimator : MonoBehaviour
         }
     }
 
-    private void Start()
+    protected override void UnsubscribeEvents()
     {
-        EquipRifle();
+        if (TryGetComponent<MoveAction>(out MoveAction moveAction))
+        {
+            moveAction.OnStartMoving -= MoveAction_OnStartMoving;
+            moveAction.OnStopMoving -= MoveAction_OnStopMoving;
+        }
+
+        if (TryGetComponent<ShootAction>(out ShootAction shootAction))
+        {
+            shootAction.OnShoot -= ShootAction_OnShoot;
+        }
+
+        if (TryGetComponent<MeleeAction>(out MeleeAction meleeAction))
+        {
+            meleeAction.OnMeleeActionStarted -= MeleeAction_OnMeleeActionStarted;
+            meleeAction.OnMeleeActionCompleted -= MeleeAction_OnMeleeActionCompleted;
+        }
     }
+
+
 
     private void MeleeAction_OnMeleeActionCompleted(object sender, EventArgs e)
     {

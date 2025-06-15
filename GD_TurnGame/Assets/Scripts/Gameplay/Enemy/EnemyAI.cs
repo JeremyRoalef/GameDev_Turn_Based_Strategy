@@ -2,7 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonobehaviourEventListener
 {
     public enum State
     {
@@ -22,18 +22,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-    }
-
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    {
-        if (!TurnSystem.Instance.IsPlayerTurn())
-        {
-            state = State.TakingTurn;
-            timer = 2f;
-        }
-
-
+        SubscribeEvents();
     }
 
     private void Update()
@@ -65,6 +54,31 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
     }
+
+
+
+    protected override void SubscribeEvents()
+    {
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+    }
+
+    protected override void UnsubscribeEvents()
+    {
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+    }
+
+
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        if (!TurnSystem.Instance.IsPlayerTurn())
+        {
+            state = State.TakingTurn;
+            timer = 2f;
+        }
+    }
+
+
 
     void SetStateTakingTurn(bool isTakingTurn)
     {

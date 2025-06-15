@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class Unit : MonobehaviourEventListener
 {
     public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler OnAnyUnitSpawned;
@@ -25,16 +25,7 @@ public class Unit : MonoBehaviour
         baseActionArray = GetComponents<BaseAction>();
         actionPoints = startingActionPoints;
         healthSystem = GetComponent<HealthSystem>();
-
-        healthSystem.OnDead += HealthSystem_OnDead;
-    }
-
-    private void HealthSystem_OnDead(object sender, EventArgs e)
-    {
-        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
-
-        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
-        Destroy(gameObject);
+        SubscribeEvents();
     }
 
     private void Start()
@@ -44,17 +35,6 @@ public class Unit : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
 
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    {
-        //Refresh action points for enemy & player logic
-        if ((isEnemy && !TurnSystem.Instance.IsPlayerTurn()) || 
-            (!isEnemy && TurnSystem.Instance.IsPlayerTurn()))
-        {
-            actionPoints = startingActionPoints;
-            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-        }
     }
 
     void Update()
@@ -67,6 +47,40 @@ public class Unit : MonoBehaviour
             LevelGrid.Instance.UnitMoveGridPosition(this, oldGridPosition, newGridPosition);
         }
     }
+
+
+
+    protected override void SubscribeEvents()
+    {
+        healthSystem.OnDead += HealthSystem_OnDead;
+    }
+
+    protected override void UnsubscribeEvents()
+    {
+        healthSystem.OnDead -= HealthSystem_OnDead;
+    }
+
+
+
+    private void HealthSystem_OnDead(object sender, EventArgs e)
+    {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+
+        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+        Destroy(gameObject);
+    }
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        //Refresh action points for enemy & player logic
+        if ((isEnemy && !TurnSystem.Instance.IsPlayerTurn()) ||
+            (!isEnemy && TurnSystem.Instance.IsPlayerTurn()))
+        {
+            actionPoints = startingActionPoints;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+
 
     public T GetAction<T>() where T : BaseAction
     {

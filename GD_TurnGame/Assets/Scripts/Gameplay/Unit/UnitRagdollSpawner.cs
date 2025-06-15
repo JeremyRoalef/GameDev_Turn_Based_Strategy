@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class UnitRagdollSpawner : MonoBehaviour
+public class UnitRagdollSpawner : MonobehaviourEventListener
 {
     [SerializeField]
     Transform ragdollPrefab;
@@ -11,11 +11,26 @@ public class UnitRagdollSpawner : MonoBehaviour
 
     HealthSystem healthSystem;
 
+
     private void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
+        SubscribeEvents();
+    }
+
+
+
+    protected override void SubscribeEvents()
+    {
         healthSystem.OnDead += HealthSystem_OnDead;
     }
+
+    protected override void UnsubscribeEvents()
+    {
+        healthSystem.OnDead -= HealthSystem_OnDead;
+    }
+
+
 
     private void HealthSystem_OnDead(object sender, EventArgs e)
     {

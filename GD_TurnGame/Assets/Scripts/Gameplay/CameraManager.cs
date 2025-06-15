@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : MonobehaviourEventListener
 {
     [SerializeField]
     GameObject actionCameraObj;
@@ -15,11 +15,25 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
-        BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
-        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
-
+        SubscribeEvents();
         HideActionCamera();
     }
+
+
+
+    protected override void SubscribeEvents()
+    {
+        BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
+        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
+    }
+
+    protected override void UnsubscribeEvents()
+    {
+        BaseAction.OnAnyActionStarted -= BaseAction_OnAnyActionStarted;
+        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
+    }
+
+
 
     private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
     {
@@ -61,6 +75,8 @@ public class CameraManager : MonoBehaviour
                 break;
         }
     }
+
+
 
     void ShowActionCamera()
     {

@@ -25,7 +25,7 @@ public class GrenadeProjectile : MonoBehaviour
         Vector3 moveDir = (targetPosition-positionXZ).normalized;
         float moveSpeed = 15f;
         float distance = Vector3.Distance(positionXZ, targetPosition);
-        float distanceNormalized = 1 - (distance / totalDistance);
+        float distanceNormalized = totalDistance == 0? 1: 1 - (distance / totalDistance);
         float reachedTargetDistance = 0.2f;
         positionXZ += moveDir * moveSpeed * Time.deltaTime;
 

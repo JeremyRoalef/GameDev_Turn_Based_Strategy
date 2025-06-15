@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class TurnSystemUI : MonoBehaviour
+public class TurnSystemUI : MonobehaviourEventListener
 {
     [SerializeField]
     Button endTurnButton;
@@ -17,17 +17,35 @@ public class TurnSystemUI : MonoBehaviour
 
     private void Start()
     {
+        SubscribeEvents();
+        UpdateTurnText();
+        UpdateEnemyTurnVisual();
+        UpdateEndTurnButtonVisibility();
+    }
+
+
+
+    protected override void SubscribeEvents()
+    {
         endTurnButton.onClick.AddListener(() =>
         {
             TurnSystem.Instance.NextTurn();
         });
 
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-
-        UpdateTurnText();
-        UpdateEnemyTurnVisual();
-        UpdateEndTurnButtonVisibility();
     }
+
+    protected override void UnsubscribeEvents()
+    {
+        endTurnButton.onClick.RemoveListener(() =>
+        {
+            TurnSystem.Instance.NextTurn();
+        });
+
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+    }
+
+
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
@@ -35,6 +53,8 @@ public class TurnSystemUI : MonoBehaviour
         UpdateEnemyTurnVisual();
         UpdateEndTurnButtonVisibility();
     }
+
+
 
     void UpdateTurnText()
     {

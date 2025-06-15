@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour
+public class UnitManager : MonobehaviourEventListener
 {
     public static UnitManager Instance { get; private set; }
 
@@ -30,9 +30,24 @@ public class UnitManager : MonoBehaviour
 
     private void Start()
     {
+        SubscribeEvents();
+    }
+
+
+
+    protected override void SubscribeEvents()
+    {
         Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
     }
+
+    protected override void UnsubscribeEvents()
+    {
+        Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+    }
+
+
 
     private void Unit_OnAnyUnitDead(object sender, EventArgs e)
     {

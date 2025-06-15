@@ -1,14 +1,27 @@
 using System;
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class NewMonoBehaviourScript : MonobehaviourEventListener
 {
-
     private void Start()
     {
-        UnitActionSystem.Instance.OnBusyChanged += UnitActionSystem_OnBusyChanged;
+        SubscribeEvents();
         gameObject.SetActive(false);
     }
+
+
+
+    protected override void SubscribeEvents()
+    {
+        UnitActionSystem.Instance.OnBusyChanged += UnitActionSystem_OnBusyChanged;
+    }
+
+    protected override void UnsubscribeEvents()
+    {
+        UnitActionSystem.Instance.OnBusyChanged -= UnitActionSystem_OnBusyChanged;
+    }
+
+
 
     private void UnitActionSystem_OnBusyChanged(object sender, bool isBusy)
     {

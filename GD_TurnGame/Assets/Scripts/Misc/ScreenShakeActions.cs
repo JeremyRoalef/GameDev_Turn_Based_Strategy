@@ -1,14 +1,30 @@
 using System;
 using UnityEngine;
 
-public class ScreenShakeActions : MonoBehaviour
+public class ScreenShakeActions : MonobehaviourEventListener
 {
     private void Start()
+    {
+        SubscribeEvents();
+    }
+
+
+
+    protected override void SubscribeEvents()
     {
         ShootAction.OnAnyShoot += ShootAction_OnAnyShoot;
         GrenadeProjectile.OnAnyGrenadeExploded += GrenadeProjectile_OnAnyGrenadeExploded;
         MeleeAction.OnAnyMeleeWeaponHit += MeleeAction_OnAnyMeleeWeaponHit;
     }
+
+    protected override void UnsubscribeEvents()
+    {
+        ShootAction.OnAnyShoot -= ShootAction_OnAnyShoot;
+        GrenadeProjectile.OnAnyGrenadeExploded -= GrenadeProjectile_OnAnyGrenadeExploded;
+        MeleeAction.OnAnyMeleeWeaponHit -= MeleeAction_OnAnyMeleeWeaponHit;
+    }
+
+
 
     private void MeleeAction_OnAnyMeleeWeaponHit(object sender, EventArgs e)
     {

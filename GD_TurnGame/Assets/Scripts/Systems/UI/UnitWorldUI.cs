@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitWorldUI : MonoBehaviour
+public class UnitWorldUI : MonobehaviourEventListener
 {
     [SerializeField]
     TextMeshProUGUI actionPointsText;
@@ -21,9 +21,24 @@ public class UnitWorldUI : MonoBehaviour
     {
         UpdateActionPointsText();
         UpdateHealthBar();
+        SubscribeEvents();
+    }
+
+
+
+    protected override void SubscribeEvents()
+    {
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         healthSystem.OnDamaged += HealthSystem_OnDamaged;
     }
+
+    protected override void UnsubscribeEvents()
+    {
+        Unit.OnAnyActionPointsChanged -= Unit_OnAnyActionPointsChanged;
+        healthSystem.OnDamaged -= HealthSystem_OnDamaged;
+    }
+
+
 
     private void HealthSystem_OnDamaged(object sender, EventArgs e)
     {
@@ -34,6 +49,8 @@ public class UnitWorldUI : MonoBehaviour
     {
         UpdateActionPointsText();
     }
+
+
 
     void UpdateActionPointsText()
     {

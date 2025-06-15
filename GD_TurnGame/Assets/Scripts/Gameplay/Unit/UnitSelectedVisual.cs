@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class UnitSelectedVisual : MonoBehaviour
+public class UnitSelectedVisual : MonobehaviourEventListener
 {
     [SerializeField]
     Unit unit;
@@ -11,9 +11,23 @@ public class UnitSelectedVisual : MonoBehaviour
 
     private void Start()
     {
-        UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
+        SubscribeEvents();
         UpdateVisual(UnitActionSystem.Instance.GetSelectedUnit());
     }
+
+
+
+    protected override void SubscribeEvents()
+    {
+        UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
+    }
+
+    protected override void UnsubscribeEvents()
+    {
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+    }
+
+
 
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, Unit selectedUnit)
     {
@@ -30,10 +44,5 @@ public class UnitSelectedVisual : MonoBehaviour
         {
             meshRenderer.enabled = false;
         }
-    }
-
-    private void OnDestroy()
-    {
-        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
     }
 }
